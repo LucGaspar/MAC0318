@@ -15,6 +15,8 @@ public class UnregulatedMotor {
 
   	public static void main(String args[]) {
   		int preto, branco;
+  		int eA = 0;;
+  		int k;
   		preto = 1;
   		branco= 0;
 	    light = new LightSensor(SensorPort.S4);
@@ -25,22 +27,20 @@ public class UnregulatedMotor {
 
     
 		while (true){
-			changeMotors(-1, 25, 25);
+			changeMotors(-1, 35, 35);
 			while (light.getLightValue() > 58 || light.getLightValue() < 44){
 				int color = light.getLightValue();
 				int d = 0;
-				int p = 35; 
-				int e = 0;
+				int p = 30; 
+				int s = 0;
+				int e = (color - border);
+				eA = eA + e;
 				if (color > border){
-					d = preto;
-					e = (color - border);
-					changeMotors(d, 10, p + e * 2);
+					changeMotors(preto, 5, 30 + eA * 3);
 					color = light.getLightValue();
 				}
 				if (color < border){
-					d = branco;
-					e = (border - color) * 3;
-					changeMotors(d, 10, p + e * 2);
+					changeMotors(branco, 5, 30 + eA * 3);
 					color = light.getLightValue();
 				}
 			}
