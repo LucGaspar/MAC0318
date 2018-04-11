@@ -1,0 +1,2 @@
+nxjc UnregulatedMotor.java
+nxj -r -o UnregulatedMotor.nxj UnregulatedMotor
