@@ -15,8 +15,8 @@ public class UnregulatedMotor {
 
   	public static void main(String args[]) {
   		int preto, branco;
-  		int eA = 0;;
-  		int k;
+  		int eA = 0;
+  		int le = 0;
   		preto = 1;
   		branco= 0;
 	    light = new LightSensor(SensorPort.S4);
@@ -30,19 +30,42 @@ public class UnregulatedMotor {
 			changeMotors(-1, 35, 35);
 			while (light.getLightValue() > 58 || light.getLightValue() < 44){
 				int color = light.getLightValue();
-				int d = 0;
 				int p = 30; 
 				int s = 0;
-				int e = (color - border);
+				int e = color - border;
 				eA = eA + e;
+				int di = le - e;
+				int turn = 0;
+				if (di < 0)
+					di = di * -1;
+				if (eA > 30)
+					eA = 30;
+				if (eA < -30)
+					eA = -30;
+
 				if (color > border){
-					changeMotors(preto, 5, 30 + eA * 3);
+					if (eA < 0)
+						turn = 30 + di - eA + e;
+					turn = 30 + di + eA + e;
+					changeMotors(preto, 10, turn);
 					color = light.getLightValue();
 				}
 				if (color < border){
-					changeMotors(branco, 5, 30 + eA * 3);
+					if (eA < 0)
+						turn = 30 + di * 1 - eA - e;
+					turn = 30 + di * 1 + eA - e;
+					changeMotors(branco, 10, turn);
 					color = light.getLightValue();
 				}
+				LCD.clear();
+				LCD.drawString("di: " + di, 0, 1);
+				LCD.drawString("eA: " + eA, 0, 2);
+				LCD.drawString("e: " + e, 0, 3);
+				LCD.drawString("turn: " + turn, 0, 4);
+				LCD.drawString("color: " + color, 0, 5);
+
+				le = e;
+
 			}
   		}
 
