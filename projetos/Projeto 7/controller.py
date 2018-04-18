@@ -16,15 +16,27 @@ except usb.core.NoBackendError:
 assert raise_exception==0, "No NXT found..."
 
 while True:
+    controler = true
     time.sleep(0.05)
     try:
         if key.is_pressed('q'):
             brick.send('\x64')
             print('Exiting...')
             break
-        elif key.is_pressed('up'):
+        if key.is_pressed('up'):
             brick.send('\x01')
-        else:
+            controler = false;
+        if key.is_pressed('right'):
+            brick.send('\x02')
+            controler = false;
+        if key.is_pressed('down'):
+            brick.send('\x03')
+            controler = false;
+        if key.is_pressed('left'):
+            brick.send('\x04')
+            controler = false;
+
+        if controler:
             brick.send('\x05')
 
     except Exception as inst:
